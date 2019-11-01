@@ -1,0 +1,4 @@
+---
+- name: Set timezone to China Standard Time
+  timezone:
+    name: Asia/Shanghai
