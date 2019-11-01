@@ -2,7 +2,7 @@
 
 if [ -z "$1" ]
   then
-    echo "Error: No inventory host provided, the host should exists in inventory.ini file, example: ./provision.sh elk-es1"
+    echo "Error: No inventory host provided, the host should exists in inventory.ini file, example: './provision.sh all' or './provision.sh node1'"
     exit 1
 fi
 
