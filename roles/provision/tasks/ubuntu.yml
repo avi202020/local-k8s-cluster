@@ -47,6 +47,11 @@
   apt:
     update_cache: yes
 
+- name: Install APT Transport HTTPS
+  apt:
+    name: apt-transport-https
+    state: present
+
 - name: Remove old versions of docker if exists
   apt:
     name:
@@ -71,7 +76,7 @@
 - name: Install docker-ce
   apt:
     name:
-      - docker-ce
+      - docker-ce=5:18.09.9~3-0~ubuntu-bionic
       - docker-ce-cli
       - containerd.io
     state: present

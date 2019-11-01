@@ -4,4 +4,3 @@
 
 - include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-

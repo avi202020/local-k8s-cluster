@@ -1,5 +1,5 @@
 ---
-- name: Add Kubernetes apt-key
+- name: add Kubernetes apt-key
   apt_key:
     url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
     state: present
@@ -23,9 +23,3 @@
   apt:
     name: kubeadm=1.16.0-00
     state: present
-
-- name: Install kubectl
-  apt:
-    name: kubectl=1.16.0-00
-    state: present
-    force: yes

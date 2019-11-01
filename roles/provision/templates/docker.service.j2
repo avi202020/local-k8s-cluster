@@ -4,7 +4,7 @@ After=network.target
 
 
 [Service]
-ExecStart=/usr/bin/dockerd -p /var/run/docker.pid -g {{ docker_data_dir }} -s overlay --insecure-registry {{ docker_registry_host }} --registry-mirror=https://registry.docker-cn.com
+ExecStart=/usr/bin/dockerd -p /var/run/docker.pid -g {{ docker_data_dir }} -s overlay --registry-mirror=https://registry.docker-cn.com
 Type=simple
 Restart=always
 

@@ -2,4 +2,4 @@
 - hosts: "{{ host }}"
   become: yes
   roles:
-    - provision
+    - k8s-worker

@@ -34,11 +34,3 @@
 - include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
 
-#
-#- name: Login Neuxs repository
-#  docker_login:
-#    registry: "{{ docker_registry_host }}"
-#    username: "{{ docker_registry_user }}"
-#    password: "{{ docker_registry_password }}"
-#  when: inventory_hostname != "nexus"
-
