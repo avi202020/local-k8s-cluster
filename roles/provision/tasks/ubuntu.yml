@@ -1,47 +1,37 @@
 ---
-#- name: Add aliyun main repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} main
-#
-#- name: Add aliyun updates main repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates main
-#
-#- name: Add aliyun security main repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security main
-#
-#- name: Add aliyun universe repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} universe
-#
-#- name: Add aliyun updates universe repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
-#
-#- name: Add aliyun security universe repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security universe
-#
-#- name: Add docker-ce gpg key
-#  apt_key:
-#    url: http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg
-#    state: present
-#
-#- name: Add aliyun docker-ce repository
-#  apt_repository:
-#    repo: deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu {{ ansible_distribution_release }} stable
-#
-
-- name: Add Docker GPG apt Key
-  apt_key:
-    url: http://download.docker.com/linux/ubuntu/gpg
-    state: present
-
-- name: Add Docker Repository
+- name: Add aliyun main repository
   apt_repository:
-    repo: deb http://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} main
+
+- name: Add aliyun updates main repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates main
+
+- name: Add aliyun security main repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security main
+
+- name: Add aliyun universe repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} universe
+
+- name: Add aliyun updates universe repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
+
+- name: Add aliyun security universe repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security universe
+
+- name: Add docker-ce gpg key
+  apt_key:
+    url: http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg
     state: present
+
+- name: Add aliyun docker-ce repository
+  apt_repository:
+    repo: deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu {{ ansible_distribution_release }} stable
+
 
 - name: Update apt repository cache
   apt:
