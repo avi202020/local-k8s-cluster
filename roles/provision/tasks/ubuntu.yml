@@ -1,36 +1,36 @@
 ---
 - name: Add aliyun main repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} main
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} main
 
 - name: Add aliyun updates main repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates main
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates main
 
 - name: Add aliyun security main repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security main
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security main
 
 - name: Add aliyun universe repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} universe
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }} universe
 
 - name: Add aliyun updates universe repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-updates universe
 
 - name: Add aliyun security universe repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security universe
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/ubuntu/ {{ ansible_distribution_release }}-security universe
 
 - name: Add docker-ce gpg key
   apt_key:
-    url: http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg
+    url: https://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg
     state: present
 
 - name: Add aliyun docker-ce repository
   apt_repository:
-    repo: deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/ubuntu {{ ansible_distribution_release }} stable
+    repo: deb [arch=amd64] https://mirrors.aliyun.com/docker-ce/linux/ubuntu {{ ansible_distribution_release }} stable
 
 
 - name: Update apt repository cache
@@ -66,7 +66,7 @@
 - name: Install docker-ce
   apt:
     name:
-      - docker-ce=5:18.09.9~3-0~ubuntu-bionic
+      - docker-ce
       - docker-ce-cli
       - containerd.io
     state: present
@@ -103,52 +103,3 @@
     state: restarted
     enabled: yes
     daemon_reload: yes
-
-- name: Uninstall python-pip
-  apt:
-    name: python-pip
-    state: absent
-
-- name: Uninstall python3-pip
-  apt:
-    name: python3-pip
-    state: absent
-
-- name: Install python3-distutils
-  apt:
-    name: python3-distutils
-    state: present
-
-- name: Download get-pip.py
-  get_url: url=https://bootstrap.pypa.io/get-pip.py  dest=/tmp
-
-- name: Install pip for python 3
-  command: "python3 /tmp/get-pip.py"
-
-- name: Delete get-pip.py
-  file: state=absent path=/tmp/get-pip.py
-
-- name: Try remove docker-py and docker as they results in conflicts
-  raw: (pip uninstall -y docker-py docker ; ls) &> /dev/null
-
-- name: Install docker-compose
-  pip:
-    name: docker-compose
-    state: present
-
-#==================utils==================
-- name: Install rsync
-  apt:
-    name: rsync
-    state: present
-
-- name: Install bash-completion
-  apt:
-    name: bash-completion
-    state: present
-
-- name: Install passlib
-  pip:
-    name: passlib
-    state: present
-

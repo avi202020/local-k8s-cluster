@@ -1,12 +1,12 @@
 ---
 - name: add Kubernetes apt-key
   apt_key:
-    url: https://packages.cloud.google.com/apt/doc/apt-key.gpg
+    url: https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg
     state: present
 
 - name: Add Kubernetes' APT repository
   apt_repository:
-    repo: deb https://apt.kubernetes.io/ kubernetes-xenial main
+    repo: deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main
     state: present
 
 - name: Update apt repository cache
@@ -15,11 +15,16 @@
 
 - name: Install kubelet
   apt:
-    name: kubelet=1.16.0-00
+    name: kubelet
     state: present
     update_cache: true
 
 - name: Install kubeadm
   apt:
-    name: kubeadm=1.16.0-00
+    name: kubeadm
+    state: present
+
+- name: Install kubectl
+  apt:
+    name: kubectl
     state: present
