@@ -72,7 +72,7 @@ now you should be able to run:
 kubectl get nodes
 ```
 
-- Download Flannel yaml:
+- Download Flannel yaml on master:
 ```bash
 curl -o kube-flannel.yml https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 ```
