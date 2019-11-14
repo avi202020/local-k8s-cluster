@@ -1,0 +1,47 @@
+MASTER_IP="192.168.3.100"
+WORKER1_IP="192.168.3.101"
+WORKER2_IP="192.168.3.102"
+
+Vagrant.configure("2") do |config|
+  config.vm.box = "ubuntu/bionic64"
+  config.vm.provision "file", source: "~/.ssh/id_rsa.pub", destination: "~/.ssh/my_id_rsa.pub"
+  config.vm.provision "shell", inline: "cat ~/.ssh/my_id_rsa.pub >> ~/.ssh/authorized_keys", privileged: false
+
+  config.vm.define "master" do |master|
+      master.vm.network "private_network", ip: MASTER_IP
+      hostName = "k8s-master"
+      master.vm.hostname = hostName
+
+      master.vm.provider "virtualbox" do |v|
+          v.memory = 4096
+          v.cpus = 2
+          v.name = hostName
+      end
+  end
+
+
+  config.vm.define "worker1" do |worker1|
+      worker1.vm.network "private_network", ip: WORKER1_IP
+      hostName = "k8s-worker1"
+      worker1.vm.hostname = hostName
+
+      worker1.vm.provider "virtualbox" do |v|
+          v.memory = 4096
+          v.cpus = 2
+          v.name = hostName
+      end
+  end
+
+  config.vm.define "worker2" do |worker2|
+      worker2.vm.network "private_network", ip: WORKER2_IP
+      hostName = "k8s-worker2"
+      worker2.vm.hostname = hostName
+
+      worker2.vm.provider "virtualbox" do |v|
+          v.memory = 4096
+          v.cpus = 2
+          v.name = hostName
+      end
+  end
+
+end

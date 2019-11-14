@@ -2,22 +2,22 @@
 - Local 3-node k8s cluster provisioned by Vagrant and Ansible.
 
 # Setup kubernetes cluster from scratch
-- Start 3 vms: `cd` to `vagrant-3-dns-ubuntu1804` and run `./start.sh` to create 3 vms. The 3 vms have their DNS set up and can access the Internet and can be accessed from host machine
+- Start 3 vms: `cd` to `vagrant-3-static-ip-ubuntu1804` and run `./start.sh` to create 3 vms. 
 
-Suppose the IP address are given below,we will use these IPs as examples:
+IPs for the 3 vms:
 
-|Node|Ip|Host|
-| --- | --- | --- |
-|master|172.28.128.228|vagrant-3-dns-ubuntu1804-1.vagrant.local|
-|worker1|172.28.128.229|vagrant-3-dns-ubuntu1804-2.vagrant.local|
-|worker2|172.28.128.230|vagrant-3-dns-ubuntu1804-3.vagrant.local|
+|Node|Ip|
+| --- | --- |
+|master|192.168.3.100|
+|worker1|192.168.3.101|
+|worker2|192.168.3.102|
 
 - Provision: `cd` to project root folder and run `./provision.sh all[or master/worker1/worker2]` to provision vm(s), the provision mainly installs docker
 - Install k8s master: `./install-k8s-master.sh`
 - Install k8s workers: `./install-k8s-worker.sh workers[or worker1/worker2]`
 - Reconfigure kubelet:
 
-Login each nodes and modify kubelet config to use the above IPs for each node:
+Login each nodes and modify kubelet config to use the IPs for each node:
 
 ```
 sudo vi /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
@@ -25,7 +25,7 @@ sudo vi /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
 add:
 
 ```
-Environment="KUBELET_EXTRA_ARGS=--node-ip=[ip from above, e.g. 172.28.128.228]"
+Environment="KUBELET_EXTRA_ARGS=--node-ip=192.168.3.100"
 ```
 like:
 
@@ -33,7 +33,7 @@ like:
 [Service]
 Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"
 Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
-Environment="KUBELET_EXTRA_ARGS=--node-ip=[ip from above, e.g. 172.28.128.228]"
+Environment="KUBELET_EXTRA_ARGS=--node-ip=192.168.3.100"
 ```
 then restart kubelet: 
 
@@ -45,7 +45,7 @@ sudo systemctl restart kubelet
 - Create cluster: login to master node and run:
 
 ```bash
-sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=[172.28.128.228 - ip address for master, ip address should from landrush and starts with `172.xxx.xxx.xxx`, like `172.28.128.225`]
+sudo kubeadm init --pod-network-cidr=10.244.0.0/16 --apiserver-advertise-address=192.168.3.100
 ```
 Attention: We will be using Flannel network plugin which by default requires setting `--pod-network-cidr` to `10.244.0.0/16`, so do not change that
 
@@ -54,7 +54,7 @@ Attention: We will be using Flannel network plugin which by default requires set
 ```
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join 172.28.128.228:6443 --token 6ml26q.l6qo06dvnzgixf8l \
+kubeadm join 192.168.3.100:6443 --token 6ml26q.l6qo06dvnzgixf8l \
     --discovery-token-ca-cert-hash sha256:82a59083c348b89879c3f3c17e23eb7815c43cacb300bd28d6795a8f37f9ca60 
 ```
 
@@ -106,7 +106,7 @@ sudo kubectl apply -f kube-flannel.yml
 - Join the cluster: login to each worker node and run your saved `kubeadm join...`:
 
 ```bash
-sudo kubeadm join 172.28.128.225:6443 --token qjt39y.g0umwcos5enynw \
+sudo kubeadm join 192.168.3.100:6443 --token qjt39y.g0umwcos5enynw \
     --discovery-token-ca-cert-hash sha256:384ee76110b0b6783b0ebe87c8b177809d6ef84c2b499c934008fc0d3397f2 
 ```
 
@@ -126,3 +126,7 @@ sudo kubeadm join 172.28.128.225:6443 --token qjt39y.g0umwcos5enynw \
 - exec command in pod: kubectl exec pod1 -it [pod name] -- [command]
 - delete context: kubectl config delete-context [context]
 - join cluster: 
+```
+kubeadm join 192.168.3.100:6443 --token 3rkk8k.j2m9xle46vave6me \
+    --discovery-token-ca-cert-hash sha256:c51d8aef780c0592397a443ed078e2276ca01ac465f545adbbf5fa8df3906b5b 
+```

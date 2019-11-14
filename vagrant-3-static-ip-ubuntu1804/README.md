@@ -1,0 +1,11 @@
+- 3 nodes ubuntu 1804 cluster, ip address refer to Vagrantfile
+- network: private(host and vm can access each other)
+- memory: 8096
+- cpu: 4
+- start: `./start.sh`
+- ssh to master:  `./login-master.sh`
+- ssh to worker1:  `./login-worker1.sh`
+- ssh to worker2:  `./login-worker2.sh`
+- destroy: `./destroy.sh`
+- your own public key uploaded to the vm to enable generic SSH
+- sometimes vm is not accessible from host, try `sudo route -n flush` and then reboot your host machine
